@@ -5,16 +5,22 @@
  */
 package lab_3b;
 
+import java.util.Scanner;
 /**
  *
  * @author Marthin
  */
 public class UserInterface {
-        
+    private Scanner scan;    
+    public UserInterface(){
+        scan = new Scanner(System.in);
+    }
         public void menu(){
+            int ans =0;
             boolean quit = false;
             while(!quit) {
-                switch (int ans) {
+                ans = scan.nextInt();
+                switch (ans) {
                     case 1: 
                         addBook();
                         break;
@@ -34,6 +40,9 @@ public class UserInterface {
             
         }
         public void getBooksByTitle(String title){
-            return null;
         }
+        public static void main(String[] args) {
+          UserInterface menu = new UserInterface();
+          menu.menu();
+         }
 }
