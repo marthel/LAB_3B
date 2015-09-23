@@ -16,6 +16,11 @@ public class CollectionOfBooks {
     public CollectionOfBooks() {
         library = new ArrayList<>();
     }
+    public void makeBook(String title,String author,int edition,String ISBN,double price){
+        Book book = new Book(ISBN,title,edition,price);
+        book.addAuthor(author);
+        addBook(book);
+    }
     public void addBook(Book book) {
         library.add(book);
     }
@@ -68,5 +73,8 @@ public class CollectionOfBooks {
     }
     public ArrayList sortByPrice(){
         return null;
+    }
+    public void print(){
+        System.out.println();
     }
 }

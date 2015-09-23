@@ -15,34 +15,92 @@ public class UserInterface {
     public UserInterface(){
         scan = new Scanner(System.in);
     }
+    
         public void menu(){
-            int ans =0;
+            String ans;
             boolean quit = false;
             while(!quit) {
-                ans = scan.nextInt();
+                printMenu();
+                ans = scan.nextLine();
                 switch (ans) {
-                    case 1: 
+                    case "1": //Add a book
                         addBook();
                         break;
-                    case 2: //remove
+                    case "2": //remove
+                        removeBook();
                         break;
-                    case 3: //search by title,author,isbn
+                    case "3": //search by title,author,isbn
+                        searchBook();
                         break;
-                    case 4://print all books
+                    case "4"://print all books
+                        printBooks();
                         break;
-                    case 5://quit and save to file
-                        quit = true;
+                    case "5"://quit and save to file
+                        if(saveToFile()){
+                            quit=true;
+                        }
                         break;
                 }
             }
         }
         public void addBook(){
+            String tmp,title,author,isbn;
+            int edition;
+            double price;
+            CollectionOfBooks book = new CollectionOfBooks();
+            
+            System.out.print("Title: ");
+            title = scan.nextLine();
+            System.out.print("Author: ");
+            author = scan.nextLine();
+            System.out.print("Edition: ");
+            tmp = scan.nextLine();
+            edition = Integer.parseInt(tmp);
+            System.out.print("ISBN: ");
+            isbn = scan.nextLine();
+            System.out.print("Price: ");
+            tmp = scan.nextLine();
+            price = Double.parseDouble(tmp);
+            book.makeBook(title, author, edition, isbn, price);
+        }
+        
+        public void removeBook(){
+        
+        }
+        
+        public void searchBook(){
+        
+        }
+        
+        public void printBooks(){
+            CollectionOfBooks book = new CollectionOfBooks();
+            System.out.println(book.getBooksByTitle("R"));
+            for(CollectionOfBooks b : book.getBooksByTitle("R")){
+                b.print();
+            }
             
         }
+        
         public void getBooksByTitle(String title){
         }
-        public static void main(String[] args) {
-          UserInterface menu = new UserInterface();
-          menu.menu();
+        
+        public boolean saveToFile(){
+            return true;
+        }
+        
+        public void printMenu(){
+            System.out.println("-----------Menu------------");
+            System.out.println("1: Add a new book");
+            System.out.println("2: Remove a book");
+            System.out.println("3: Search for a book");
+            System.out.println("4: Print all avalible books");
+            System.out.println("5: Exit");
+            System.out.println("---------------------------");
+            System.out.print("Enter: ");
+        }
+        
+        public static void main(String[] args){
+            UserInterface menu = new UserInterface();
+            menu.menu();
          }
 }
