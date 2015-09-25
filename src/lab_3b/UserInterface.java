@@ -5,18 +5,22 @@
  */
 package lab_3b;
 
+import java.io.*;
+import java.lang.Runtime;
+import java.util.ArrayList;
 import java.util.Scanner;
 /**
  *
  * @author Marthin
  */
 public class UserInterface {
-    private Scanner scan;    
+    private Scanner scan;
+    private CollectionOfBooks library = new CollectionOfBooks();;
     public UserInterface(){
         scan = new Scanner(System.in);
     }
     
-        public void menu(){
+        public void menu() throws IOException{
             String ans;
             boolean quit = false;
             while(!quit) {
@@ -41,13 +45,26 @@ public class UserInterface {
                         }
                         break;
                 }
+
+                try {
+                    final String os = System.getProperty("os.name");
+
+                    if (os.contains("Windows")){
+                        Runtime.getRuntime().exec("cls");
+                    }else{
+                        Runtime.getRuntime().exec("clear");
+                    }
+                }
+                catch (final Exception e){
+                    System.out.println("Error in clear");
+                }
+
             }
         }
         public void addBook(){
             String tmp,title,author,isbn;
             int edition;
             double price;
-            CollectionOfBooks book = new CollectionOfBooks();
             
             System.out.print("Title: ");
             title = scan.nextLine();
@@ -61,7 +78,7 @@ public class UserInterface {
             System.out.print("Price: ");
             tmp = scan.nextLine();
             price = Double.parseDouble(tmp);
-            book.makeBook(title, author, edition, isbn, price);
+            library.makeBook(title, author, edition, isbn, price);
         }
         
         public void removeBook(){
@@ -73,10 +90,9 @@ public class UserInterface {
         }
         
         public void printBooks(){
-            CollectionOfBooks book = new CollectionOfBooks();
-            System.out.println(book.getBooksByTitle("R"));
-            for(CollectionOfBooks b : book.getBooksByTitle("R")){
-                b.print();
+            ArrayList tmp = library.getBooksByTitle("#");
+            for(int i =0;i<library.getSize();i++){
+                System.out.println(library.getBooksByTitle("#").get(i).toString());
             }
             
         }
@@ -93,13 +109,13 @@ public class UserInterface {
             System.out.println("1: Add a new book");
             System.out.println("2: Remove a book");
             System.out.println("3: Search for a book");
-            System.out.println("4: Print all avalible books");
+            System.out.println("4: Print all available books");
             System.out.println("5: Exit");
             System.out.println("---------------------------");
             System.out.print("Enter: ");
         }
         
-        public static void main(String[] args){
+        public static void main(String[] args) throws IOException{
             UserInterface menu = new UserInterface();
             menu.menu();
          }

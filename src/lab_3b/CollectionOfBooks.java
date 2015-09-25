@@ -27,15 +27,22 @@ public class CollectionOfBooks {
     public void removeBook(Book book) {
         library.remove(book);
     }
+    public int getSize(){
+        return library.size();
+    }
     public ArrayList getBooksByTitle(String title){
         ArrayList<Book> tmp = new ArrayList<>();
-        for(int i=0; i<library.size(); i++){
-            Book b = library.get(i);
-            if( b.getTitle().contains(title)) {
-                tmp.add(b);
+        if(title.equals("#")) {
+            return library;
+        }else{
+            for (int i = 0; i < library.size(); i++) {
+                Book b = library.get(i);
+                if (b.getTitle().contains(title)) {
+                    tmp.add(b);
+                }
             }
+            return tmp;
         }
-        return tmp;
     }
     public ArrayList getBooksByISBN(String ISBN){
         ArrayList<Book> tmp = new ArrayList<>();
