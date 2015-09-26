@@ -6,6 +6,7 @@
 package lab_3b;
 
 import java.util.ArrayList;
+import java.lang.StringBuilder;
 /**
  *
  * @author Marthin
@@ -81,7 +82,14 @@ public class CollectionOfBooks {
     public ArrayList sortByPrice(){
         return null;
     }
-    public void print(){
-        System.out.println();
+    @Override
+    public String toString(){
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("[ ");
+        for (int i = 0;i<library.size();i++) {
+            strBuilder.append(library.get(i).getTitle() + " ");
+        }
+        strBuilder.append("] ");
+        return strBuilder.toString();
     }
 }

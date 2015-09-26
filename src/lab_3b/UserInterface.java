@@ -90,11 +90,7 @@ public class UserInterface {
         }
         
         public void printBooks(){
-            ArrayList tmp = library.getBooksByTitle("#");
-            for(int i =0;i<library.getSize();i++){
-                System.out.println(library.getBooksByTitle("#").get(i).toString());
-            }
-            
+            System.out.println(library.toString());
         }
         
         public void getBooksByTitle(String title){
