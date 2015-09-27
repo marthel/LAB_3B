@@ -28,7 +28,8 @@ public class UserInterface {
                 ans = scan.nextLine();
                 switch (ans) {
                     case "1": //Add a book
-                        addBook();
+                        //addBook();
+                        testAddBook();
                         break;
                     case "2": //remove
                         removeBook();
@@ -43,6 +44,8 @@ public class UserInterface {
                         if(saveToFile()){
                             quit=true;
                         }
+                        break;
+                    default:
                         break;
                 }
 
@@ -62,14 +65,22 @@ public class UserInterface {
             }
         }
         public void addBook(){
-            String tmp,title,author,isbn;
+            String tmp,title,isbn;
+            ArrayList<String> author = new ArrayList<>();
             int edition;
             double price;
             
             System.out.print("Title: ");
             title = scan.nextLine();
-            System.out.print("Author: ");
-            author = scan.nextLine();
+            while (true) {
+                System.out.print("Author: ");
+                tmp=scan.nextLine();
+                if (tmp.length() > 0) {
+                    author.add(tmp);
+                }else {
+                    break;
+                }
+            }
             System.out.print("Edition: ");
             tmp = scan.nextLine();
             edition = Integer.parseInt(tmp);
@@ -80,13 +91,86 @@ public class UserInterface {
             price = Double.parseDouble(tmp);
             library.makeBook(title, author, edition, isbn, price);
         }
-        
+
+        public void testAddBook(){
+            String title,isbn;
+            ArrayList<String> author = new ArrayList<>();
+            int edition,price;
+            title="rakka";
+            author.add("kalle");
+            isbn="12-34-567890";
+            edition=1;
+            price=250;
+            library.makeBook(title, author, edition, isbn, price);
+            title="Rummanof";
+            author.add("Antono");
+            author.add("Alexi");
+            isbn="12-34-567890";
+            edition=1;
+            price=250;
+            library.makeBook(title, author, edition, isbn, price);
+            title="Libre";
+            author.add("linn");
+            author.add("fredrik");
+            isbn="12-34-567890";
+            edition=1;
+            price=250;
+            library.makeBook(title, author, edition, isbn, price);
+            title="mammy";
+            author.add("rino");
+            author.add("anton");
+            author.add("kalle");
+            isbn="12-34-567890";
+            edition=1;
+            price=250;
+            library.makeBook(title, author, edition, isbn, price);
+            title="är namn";
+            author.add("örjan");
+            author.add("lukas");
+            isbn="12-34-567890";
+            edition=1;
+            price=250;
+            library.makeBook(title, author, edition, isbn, price);
+        }
+
         public void removeBook(){
         
         }
         
         public void searchBook(){
-        
+            String ans;
+            ArrayList tmp;
+            System.out.println("1:Title, 2:Author, 3:ISBN");
+            System.out.print("What do you wana search for: ");
+            ans=scan.nextLine();
+            switch (ans) {
+                case "1":
+                    System.out.print("Enter search term: ");
+                    ans = scan.nextLine();
+                    tmp=library.getBooksByTitle(ans);
+                    for (int i=0;i<tmp.size();i++){
+                        System.out.println(tmp.get(i));
+                    }
+                    break;
+                case "2":
+                    System.out.print("Enter search term: ");
+                    ans = scan.nextLine();
+                    tmp=library.getBooksByAuthor(ans);
+                    for (int i=0;i<tmp.size();i++){
+                        System.out.println(tmp.get(i));
+                    }
+                    break;
+                case "3":
+                    System.out.print("Enter search term: ");
+                    ans = scan.nextLine();
+                    tmp=library.getBooksByISBN(ans);
+                    for (int i=0;i<tmp.size();i++){
+                        System.out.println(tmp.get(i));
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         
         public void printBooks(){

@@ -7,6 +7,8 @@ package lab_3b;
 
 import java.util.ArrayList;
 import java.lang.StringBuilder;
+import java.util.Locale;
+
 /**
  *
  * @author Marthin
@@ -17,9 +19,12 @@ public class CollectionOfBooks {
     public CollectionOfBooks() {
         library = new ArrayList<>();
     }
-    public void makeBook(String title,String author,int edition,String ISBN,double price){
+    public void makeBook(String title,ArrayList<String> author,int edition,String ISBN,double price){
         Book book = new Book(ISBN,title,edition,price);
-        book.addAuthor(author);
+        for (int i=0;i<author.size();i++){
+            book.addAuthor(author.get(i));
+        }
+
         addBook(book);
     }
     public void addBook(Book book) {
@@ -32,13 +37,15 @@ public class CollectionOfBooks {
         return library.size();
     }
     public ArrayList getBooksByTitle(String title){
-        ArrayList<Book> tmp = new ArrayList<>();
+        ArrayList tmp = new ArrayList<>();
+        String upperCaseB,upperCaseTerm=title.toUpperCase(Locale.getDefault());
         if(title.equals("#")) {
             return library;
         }else{
             for (int i = 0; i < library.size(); i++) {
-                Book b = library.get(i);
-                if (b.getTitle().contains(title)) {
+                String b = library.get(i).getTitle();
+                upperCaseB=b.toUpperCase(Locale.getDefault());
+                if (upperCaseB.contains(upperCaseTerm)) {
                     tmp.add(b);
                 }
             }
@@ -46,22 +53,26 @@ public class CollectionOfBooks {
         }
     }
     public ArrayList getBooksByISBN(String ISBN){
-        ArrayList<Book> tmp = new ArrayList<>();
+        ArrayList tmp = new ArrayList<>();
         for(int i=0; i<library.size(); i++){
-            Book b = library.get(i);
-            if( b.getISBN().contains(ISBN)) {
+            String b = library.get(i).getISBN();
+            if( b.contains(ISBN)) {
                 tmp.add(b);
             }
         }
         return tmp;
     }
     public ArrayList getBooksByAuthor(String author){
-        ArrayList<Book> tmp = new ArrayList<>();
+        ArrayList tmp = new ArrayList<>();
+        String upperCaseB,upperCaseTerm=author.toUpperCase(Locale.getDefault());
         for(int i=0; i<library.size(); i++){
-            Book b = library.get(i);
-            if( b.getAuthors().contains(author)) {
-                if(!tmp.contains(b)) {
-                    tmp.add(b);
+            for (int j = 0; j<library.get(i).getNmbAuthors();j++){
+                String b = library.get(i).getAuthorName(j);
+                upperCaseB=b.toUpperCase(Locale.getDefault());
+                if( upperCaseB.contains(upperCaseTerm)) {
+                    if (!tmp.contains(b)) {
+                        tmp.add(b);
+                    }
                 }
             }
         }

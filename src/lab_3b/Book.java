@@ -5,6 +5,7 @@
  */
 package lab_3b;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 /**
  *
@@ -28,6 +29,12 @@ public class Book implements Comparable<Book> {
     }
     public ArrayList getAuthors() {
         return authors;
+    }
+    public int getNmbAuthors(){
+        return authors.size();
+    }
+    public String getAuthorName(int i){
+        return authors.get(i).getName();
     }
     public String getTitle() {
         return title;
