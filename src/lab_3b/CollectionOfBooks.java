@@ -30,8 +30,8 @@ public class CollectionOfBooks {
     public void addBook(Book book) {
         library.add(book);
     }
-    public void removeBook(Book book) {
-        library.remove(book);
+    public void removeBook(int index) {
+        library.remove(index);
     }
     public int getSize(){
         return library.size();
@@ -40,10 +40,14 @@ public class CollectionOfBooks {
         ArrayList tmp = new ArrayList<>();
         String upperCaseB,upperCaseTerm=title.toUpperCase(Locale.getDefault());
         if(title.equals("#")) {
-            return library;
+            for (int i=0;i<library.size();i++){
+                String b = bookToString(i);
+                tmp.add(b);
+            }
+            return tmp;
         }else{
             for (int i = 0; i < library.size(); i++) {
-                String b = library.get(i).getTitle();
+                String b = bookToString(i);
                 upperCaseB=b.toUpperCase(Locale.getDefault());
                 if (upperCaseB.contains(upperCaseTerm)) {
                     tmp.add(b);
@@ -55,7 +59,7 @@ public class CollectionOfBooks {
     public ArrayList getBooksByISBN(String ISBN){
         ArrayList tmp = new ArrayList<>();
         for(int i=0; i<library.size(); i++){
-            String b = library.get(i).getISBN();
+            String b = bookToString(i);
             if( b.contains(ISBN)) {
                 tmp.add(b);
             }
@@ -66,14 +70,10 @@ public class CollectionOfBooks {
         ArrayList tmp = new ArrayList<>();
         String upperCaseB,upperCaseTerm=author.toUpperCase(Locale.getDefault());
         for(int i=0; i<library.size(); i++){
-            for (int j = 0; j<library.get(i).getNmbAuthors();j++){
-                String b = library.get(i).getAuthorName(j);
-                upperCaseB=b.toUpperCase(Locale.getDefault());
-                if( upperCaseB.contains(upperCaseTerm)) {
-                    if (!tmp.contains(b)) {
-                        tmp.add(b);
-                    }
-                }
+            String b = bookToString(i);
+            upperCaseB=b.toUpperCase(Locale.getDefault());
+            if( upperCaseB.contains(upperCaseTerm)) {
+                tmp.add(b);
             }
         }
         return tmp;
@@ -101,6 +101,19 @@ public class CollectionOfBooks {
             strBuilder.append(library.get(i).getTitle() + " ");
         }
         strBuilder.append("] ");
+        return strBuilder.toString();
+    }
+    private String bookToString(int nmb){
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Title: " + library.get(nmb).getTitle() + " ");
+        strBuilder.append("Author:");
+        for (int i = 0;i<library.get(nmb).getNmbAuthors();i++) {
+            strBuilder.append(" " + library.get(nmb).getAuthorName(i));
+        }
+        strBuilder.append(" ");
+        strBuilder.append("ISBN: " + library.get(nmb).getISBN() + " ");
+        strBuilder.append("Edition: " + library.get(nmb).getEdition() + " ");
+        strBuilder.append("Price: " + library.get(nmb).getPrice() + " ");
         return strBuilder.toString();
     }
 }

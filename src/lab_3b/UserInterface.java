@@ -69,26 +69,49 @@ public class UserInterface {
             ArrayList<String> author = new ArrayList<>();
             int edition;
             double price;
-            
+
+            System.out.println("Pressing enter during Author without entering something will continue");
+
             System.out.print("Title: ");
             title = scan.nextLine();
+            if (title.length()<1){
+                title=null;
+            }
+
             while (true) {
                 System.out.print("Author: ");
                 tmp=scan.nextLine();
                 if (tmp.length() > 0) {
                     author.add(tmp);
-                }else {
+                }else if (author.size()<1){
+                    author.add(null);
+                }else{
                     break;
                 }
             }
+
             System.out.print("Edition: ");
             tmp = scan.nextLine();
-            edition = Integer.parseInt(tmp);
+            if (tmp.length()<1){
+                edition=Integer.parseInt("0");
+            }else {
+                edition = Integer.parseInt(tmp);
+            }
+
             System.out.print("ISBN: ");
             isbn = scan.nextLine();
+            if (isbn.length()<1){
+                isbn=null;
+            }
+
             System.out.print("Price: ");
             tmp = scan.nextLine();
-            price = Double.parseDouble(tmp);
+            if (tmp.length()<1){
+                price = Double.parseDouble("0");
+            }else {
+                price = Double.parseDouble(tmp);
+            }
+
             library.makeBook(title, author, edition, isbn, price);
         }
 
@@ -96,85 +119,105 @@ public class UserInterface {
             String title,isbn;
             ArrayList<String> author = new ArrayList<>();
             int edition,price;
-            title="rakka";
+            title="rakkay";
             author.add("kalle");
             isbn="12-34-567890";
             edition=1;
-            price=250;
+            price=100;
             library.makeBook(title, author, edition, isbn, price);
+            author.clear();
             title="Rummanof";
             author.add("Antono");
             author.add("Alexi");
             isbn="12-34-567890";
-            edition=1;
+            edition=3;
             price=250;
             library.makeBook(title, author, edition, isbn, price);
+            author.clear();
             title="Libre";
             author.add("linn");
             author.add("fredrik");
             isbn="12-34-567890";
-            edition=1;
-            price=250;
+            edition=2;
+            price=200;
             library.makeBook(title, author, edition, isbn, price);
+            author.clear();
             title="mammy";
-            author.add("rino");
+            author.add("rinoy");
             author.add("anton");
             author.add("kalle");
             isbn="12-34-567890";
-            edition=1;
-            price=250;
+            edition=5;
+            price=300;
             library.makeBook(title, author, edition, isbn, price);
+            author.clear();
             title="är namn";
             author.add("örjan");
             author.add("lukas");
             isbn="12-34-567890";
-            edition=1;
-            price=250;
+            edition=4;
+            price=400;
             library.makeBook(title, author, edition, isbn, price);
+            author.clear();
         }
 
         public void removeBook(){
-        
+            String tmp,b;
+            int pos=-1;
+            ArrayList<String> tmpAL=library.getBooksByTitle("#");
+            System.out.println("Enter the book to be removed");
+            tmp=scan.nextLine();
+            for (int i=0;i<tmpAL.size();i++){
+                b = tmpAL.get(i);
+                if (b.contains(tmp)){
+                    pos=i;
+                }
+            }
+            if (pos>-1){
+                library.removeBook(pos);
+                if (library.getSize()==tmpAL.size()-1){
+                    System.out.println("You removed the book from the library");
+                }else{
+                    System.out.println("There was an error during removal");
+                }
+            }else{
+                System.out.println("The book you were trying to remove doesn't exist in our library");
+            }
         }
         
         public void searchBook(){
             String ans;
-            ArrayList tmp;
-            System.out.println("1:Title, 2:Author, 3:ISBN");
-            System.out.print("What do you wana search for: ");
-            ans=scan.nextLine();
-            switch (ans) {
-                case "1":
-                    System.out.print("Enter search term: ");
-                    ans = scan.nextLine();
-                    tmp=library.getBooksByTitle(ans);
-                    for (int i=0;i<tmp.size();i++){
-                        System.out.println(tmp.get(i));
-                    }
-                    break;
-                case "2":
-                    System.out.print("Enter search term: ");
-                    ans = scan.nextLine();
-                    tmp=library.getBooksByAuthor(ans);
-                    for (int i=0;i<tmp.size();i++){
-                        System.out.println(tmp.get(i));
-                    }
-                    break;
-                case "3":
-                    System.out.print("Enter search term: ");
-                    ans = scan.nextLine();
-                    tmp=library.getBooksByISBN(ans);
-                    for (int i=0;i<tmp.size();i++){
-                        System.out.println(tmp.get(i));
-                    }
-                    break;
-                default:
-                    break;
+            ArrayList tmp,result=new ArrayList();
+            System.out.print("Enter search term: ");
+            ans = scan.nextLine();
+            tmp=library.getBooksByTitle(ans);
+            for (int i=0;i<tmp.size();i++){
+                if (!result.contains(tmp.get(i))){
+                    result.add(tmp.get(i));
+                }
+            }
+            tmp=library.getBooksByAuthor(ans);
+            for (int i=0;i<tmp.size();i++){
+                if (!result.contains(tmp.get(i))){
+                    result.add(tmp.get(i));
+                }
+            }
+            tmp=library.getBooksByISBN(ans);
+            for (int i=0;i<tmp.size();i++){
+                if (!result.contains(tmp.get(i))){
+                    result.add(tmp.get(i));
+                }
+            }
+            for (int i=0;i<result.size();i++){
+                System.out.println(result.get(i));
             }
         }
         
         public void printBooks(){
-            System.out.println(library.toString());
+            ArrayList allBooks=library.getBooksByTitle("#");
+            for (int i =0; i<allBooks.size();i++){
+                System.out.println(allBooks.get(i));
+            }
         }
         
         public void getBooksByTitle(String title){
